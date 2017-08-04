@@ -16,7 +16,7 @@ A Social Check-List App
   firebase.initializeApp(config);
 </script>
 ```
+Clint made it!!!
 Hello World!!!!! 42
 CJ Hanson
 Mike_Jackson
-
