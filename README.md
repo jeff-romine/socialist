@@ -15,7 +15,8 @@ A Social Check-List App
   };
   firebase.initializeApp(config);
 </script>
-
-Hello World!!!!! 42
-Mike_Jackson
 ```
+Hello World!!!!! 42
+CJ Hanson
+Mike_Jackson
+
