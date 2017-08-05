@@ -1,3 +1,4 @@
+var loginState;
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyCtGKn7C12-nYfZVhDS8o94NVWQc9_ORwI",
@@ -11,12 +12,20 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
-
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    console.log(user);
+    loginState = true;
+    $(location).attr('href', 'dashboard.html');
+  } else {
+    loginState = false;
+  }
+});
 
 $('document').ready(function () {
   
-  $('body').on('click', '#login-btn', function () {
-    event.preventDefault()
+  $('body').on('click', '#login-btn', function (event) {
+    event.preventDefault();
 
     console.log('hello');
     // calling login elements
@@ -29,19 +38,22 @@ $('document').ready(function () {
 
     auth.signInWithEmailAndPassword(email, password);
 
-    // firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
-    //   // Handle Errors here.
-    //   var errorCode = error.code;
-    //   var errorMessage = error.message;
-    //   // ...
-    // });
+    firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // ...
+    });
+
   });
 
+
+
   $('#signup-btn').on('click', function (event) {
+    event.preventDefault()
     // calling signUp elements
     var signUpEmailVal = $('#signup-email-input').val().trim();
     var signUpPasswordVal = $('#signup-password-input').val().trim();
-    var signUpBtn = $('#signup-btn').val().trim();
 
     var email = signUpEmailVal;
     var password = signUpPasswordVal;
@@ -49,13 +61,11 @@ $('document').ready(function () {
 
     auth.createUserWithEmailAndPassword(email, password);
 
-    // firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
-    //   // Handle Errors here.
-    //   var errorCode = error.code;
-    //   var errorMessage = error.message;
-    //   // ...
-    // });
+    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // ...
+    });
   });
-
-  // $('#my_popup').popup();
 });
