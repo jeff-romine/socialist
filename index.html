@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+
+    <title>SociaLlist - Log In</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <!--generate sign in form  -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-xs-12 text-center">
+
+                <div class="sign-in">
+                    <form class="form-signin">
+                        <h2 class="form-signin-heading">Please sign in</h2>
+                        <label for="inputEmail" class="sr-only">Email address</label>
+                        <input type="email" id="login-email-input" class="form-control" placeholder="Email address" required="" autofocus="">
+                        <label for="inputPassword" class="sr-only">Password</label>
+                        <input type="password" id="login-password-input" class="form-control" placeholder="Password" required="">
+                        <br>
+                    </form>
+
+
+                    <button id="login-btn" class="btn btn-lg btn-primary">Sign In</button><button class="btn btn-lg btn-primary" data-toggle="modal" data-target="#loginModal"><strong>Join The Revolution</strong></button>
+
+
+                </div>
+                <!--End sign in form  -->
+
+                <!--generate button for sign up  -->
+
+                <!--End signup button  -->
+
+
+                <!--begin code for signup modal  -->
+                <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="Login" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                                <h5 class="modal-title">Join The SocaiLlist Party</h5>
+                            </div>
+
+                            <div class="modal-body">
+                                <!-- The form is placed inside the body of modal -->
+                                <form id="signupForm" method="post" class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">First Name:</label>
+                                        <div class="col-xs-5">
+                                            <input type="text" class="form-control" id="signup-name-input" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">email:</label>
+                                        <div class="col-xs-5">
+                                            <input type="email" class="form-control" id="signup-email-input" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-xs-3 control-label">Password:</label>
+                                        <div class="col-xs-5">
+                                            <input type="password" class="form-control" id="signup-password-input" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-xs-5 col-xs-offset-3">
+                                            <button id="signup-btn" type="submit" class="btn btn-primary">Login</button>
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--End signup modal  -->
+            </div>
+        </div>
+
+    </div>
+    <script src="http://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
+    <!-- <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script> -->
+    <script src="https://cdn.rawgit.com/vast-engineering/jquery-popup-overlay/1.7.11/jquery.popupoverlay.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/javascript/signIn.js"></script>
+    <script src="https://use.fontawesome.com/ca1af533c3.js"></script>
+</body>
+
+</html>
