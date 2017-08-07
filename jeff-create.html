@@ -13,6 +13,8 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
         integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
+  <link rel="stylesheet" href="assets/font-awesome-4.7.0/css/font-awesome.min.css">
+
   <script
     src="https://code.jquery.com/jquery-3.2.1.min.js"
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -33,15 +35,15 @@
 </head>
 
 <body>
-<h1>Lists</h1>
 <div class="container">
   <table class="table table-striped table-bordered">
     <thead>
     <tr>
       <th>#</th>
-      <th>Id</th>
+      <th></th>
       <th>Name</th>
       <th>Description</th>
+      <th></th>
     </tr>
     </thead>
     <tbody id="list">
@@ -54,9 +56,15 @@
   {{#each this}}
   <tr id="{{id}}">
     <th>{{number}}</th>
-    <th>{{id}}</th>
-    <td><input class="editable" data-column="name" data-item-id="{{id}}">{{name}}</input</td>
-    <td><input class="editable" data-column="description" data-item-id="{{id}}">{{description}}</input></td>
+    <td>
+      <a class="btn move-item-up"   data-item-id="{{id}}" href="#"><i class="fa fa-arrow-circle-up fa-lg"></i></a>
+      <a class="btn move-item-down" data-item-id="{{id}}" href="#"><i class="fa fa-arrow-circle-down fa-lg"></i></a>
+    </td>
+    <td><input class="editable" data-column="name" data-item-id="{{id}}" value="{{name}}"></td>
+    <td><input class="editable" data-column="description" data-item-id="{{id}}" value="{{description}}"></td>
+    <td>
+      <a class="btn btn-danger delete-item" data-item-id="{{id}}" href="#"><i class="fa fa-trash-o fa-lg"></i></a>
+    </td>
   </tr>
   {{/each}}
 </script>

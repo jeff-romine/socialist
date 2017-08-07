@@ -17,91 +17,46 @@ var itemsRef = listRef.child("items");
 
 var itemOrderRef = listRef.child("itemOrder");
 
-var currentItems;
+var currentItems={};
 var currentItemOrder = [];
 
-// listRef.on('child_added', function (snapshot) {
-//     console.log("list.child_added");
-//     console.log(snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
-//
-// });
+itemsRef.on('child_added', function (snapshot) {
+    console.log("items.child_added - " + snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
+    // currentItems = snapshot.val();
+    currentItems[snapshot.key] = snapshot.val();
+    renderList();
+});
 
-// itemsRef.on('child_added', function (snapshot) {
-//     console.log("items.child_added");
-//     console.log(snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
-// });
-
-function appendToItemOrder(itemKey) {
-    currentItemOrder.push(itemKey);
-    itemOrderRef.set(currentItemOrder);
-};
-
-// itemsRef.on('child_removed', function (snapshot) {
-//     console.log("items.child_removed");
-//     console.log(snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
-//     removeFromItemOrder(snapshot.key);
-// });
-
-function removeFromItemOrder(removeKey) {
-    if (currentItemOrder) {
-        currentItemOrder = currentItemOrder.filter(function (itemKey) {
-            itemKey !== removeKey
-        });
-        itemOrderRef.set(currentItemOrder);
-    }
-};
-
-// itemsRef.on('child_changed', function (snapshot) {
-//     console.log("items.child_changed");
-//     console.log(snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
-// });
-
-itemsRef.on('value', function (snapshot) {
-    console.log();
-    console.log("items.value - " + snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
-    currentItems = snapshot.val();
+ itemsRef.on('child_removed', function (snapshot) {
+    console.log("items.child_removed - " + snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
+    delete currentItems[snapshot.key];
     renderList();
 });
 
 function appendItem(item) {
-    var initialItemRef = itemsRef.push(
+    var itemRef = itemsRef.push(
         item);
-
-    currentItemOrder.push(initialItemRef.key);
+    currentItemOrder.push(itemRef.key);
     itemOrderRef.set(currentItemOrder);
 }
 
-// itemOrderRef.on('child_added', function (snapshot) {
-//         console.log("itemOrder.child_added");
-//         console.log(snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
-//     }
-// );
-
-// itemOrderRef.on('child_removed', function (snapshot) {
-//         console.log("itemOrder.child_removed");
-//         console.log(snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
-//     }
-// );
-
 itemOrderRef.on('value', function (snapshot) {
-        console.log();
         console.log("itemOrder.value - " + snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
-        currentItemOrder = snapshot.val();
+        currentItemOrder = (snapshot.val() || []);
         renderList();
     }
 );
 
-console.log("list-template: " + $("#list-template").html());
-
 function renderList() {
-    if (currentItems) {
-        // TODO Try initializing listTemplate in document ready listener
-        var listTemplate = Handlebars.compile($("#list-template").html());
-        var displayList = prepareDisplayList(currentItems, currentItemOrder);
-        var html = listTemplate(displayList);
+    var items=currentItems || {};
+    var itemOrder=currentItemOrder || [];
 
-        $("#list").html(html);
-    }
+    // TODO Try initializing listTemplate in document ready listener
+    var listTemplate = Handlebars.compile($("#list-template").html());
+    var displayList = prepareDisplayList(items, itemOrder);
+    var html = listTemplate(displayList);
+
+    $("#list").html(html);
 }
 
 function prepareDisplayList(items, itemOrder) {
@@ -133,20 +88,28 @@ function appendBlankItem () {
     );
 }
 
-appendBlankItem();
-
 function targetToString(tgt) {
     return tgt.attr('data-item-id') + "." + tgt.attr('data-column') + ": " + tgt.val();
 }
+
+function updateColumnFromTarget(tgt) {
+    var itemKey = tgt.attr('data-item-id');
+    var col = tgt.attr('data-column');
+    var val = tgt.val();
+    currentItems[itemKey][col]=val;
+    // I probably shouldn't update the whole list to change a column, but this will work for now.
+    itemsRef.child(itemKey).child(col).set(val);
+}
+
 $("#list").on('input', '.editable', function (event) {
     var tgt = $(event.currentTarget);
     console.log("input:  " + targetToString(tgt));
+    updateColumnFromTarget(tgt);
 });
 
 $("#list").on('change', '.editable', function (event) {
     var tgt = $(event.currentTarget);
     console.log("change:  " +  targetToString(tgt));
-    
 });
 $("#list").on('blur', '.editable', function (event) {
     var tgt = $(event.currentTarget);
@@ -156,3 +119,94 @@ $("#list").on('blur', '.editable', function (event) {
 $("#add-item").on('click',function (event) {
     appendBlankItem();
 });
+
+function removeItem(index) {
+    if ((index >= 0) && (index < currentItemOrder.length)) {
+
+        var removeKey = currentItemOrder[index];
+        var newCurrentItemOrder = currentItemOrder.filter((key) => (key != removeKey));
+
+        currentItemOrder = newCurrentItemOrder;
+
+        itemOrderRef.set(currentItemOrder);
+
+        var newItems = jQuery.extend(true,{},currentItems);
+
+        delete newItems[removeKey];
+
+        currentItems = newItems;
+        itemsRef.set(currentItems);
+    }
+}
+
+function removeItemById(itemId) {
+    if (currentItems[itemId]) {
+        var newCurrentItemOrder = currentItemOrder.filter((key) => (key != itemId));
+
+        currentItemOrder = newCurrentItemOrder;
+        itemOrderRef.set(currentItemOrder);
+
+        var newItems = jQuery.extend(true,{},currentItems);
+        delete newItems[itemId];
+
+        currentItems = newItems;
+        itemsRef.set(currentItems);
+    }
+}
+
+function moveItemUp(itemId) {
+    var itemIdIndex = currentItemOrder.indexOf(itemId);
+
+    if (itemIdIndex > 0) {
+        var newItemOrder = currentItemOrder.slice();
+
+        newItemOrder.splice(itemIdIndex,1);
+        newItemOrder.splice(itemIdIndex - 1,0,itemId);
+
+        itemOrderRef.set(newItemOrder);
+    }
+}
+
+function moveItemDown(itemId) {
+    var itemIdIndex = currentItemOrder.indexOf(itemId);
+
+    if (itemIdIndex < (currentItemOrder.length + 1)) {
+        var newItemOrder = currentItemOrder.slice();
+
+        newItemOrder.splice(itemIdIndex,1);
+        newItemOrder.splice(itemIdIndex + 1,0,itemId);
+
+        itemOrderRef.set(newItemOrder);
+    }
+}
+
+$("#list").on('click','.move-item-up',
+    (event) => {
+        var tgt = $(event.currentTarget);
+        var itemId = tgt.attr('data-item-id');
+        console.log("move-item-up - " + itemId);
+        moveItemUp(itemId);
+    }
+);
+
+
+$("#list").on('click','.move-item-down',
+    (event) => {
+        var tgt = $(event.currentTarget);
+        var itemId = tgt.attr('data-item-id');
+        console.log("move-item-down - " + itemId);
+        moveItemDown(itemId);
+    }
+);
+
+$("#list").on('click','.delete-item',
+    (event) => {
+        var tgt = $(event.currentTarget);
+        var itemId = tgt.attr('data-item-id');
+        console.log("delete-item - " + tgt.attr('data-item-id'));
+        removeItemById(itemId);
+    }
+);
+
+appendBlankItem();
+
