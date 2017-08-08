@@ -35,8 +35,14 @@
 </head>
 
 <body>
-<h1>Create</h1>
 <div class="container">
+  <div class="row">
+    <div class="input-group col-lg-12">
+      <span class="input-group-addon">Title</span>
+      <input id="title" type="text" class="form-control">
+    </div>
+  </div>
+  <div class="row">
   <table class="table table-striped table-bordered">
     <thead>
     <tr>
@@ -51,6 +57,7 @@
     </tbody>
   </table>
   <button id="add-item" type="button" class="btn btn-primary">Add Item</button>
+  </div>
 </div>
 
 <script id="list-template" type="text/x-handlebars-template">
@@ -71,7 +78,7 @@
 </script>
 
 <script src="assets/javascript/list-editor.js"></script>
-<script src="assets/javascript/jeff-create.js"></script>
+<script src="assets/javascript/jeff-edit.js"></script>
 
 </body>
 </html>
