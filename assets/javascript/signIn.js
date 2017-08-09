@@ -54,7 +54,6 @@ $('document').ready(function () {
     // calling signUp elements
     var signUpEmailVal = $('#signup-email-input').val().trim();
     var signUpPasswordVal = $('#signup-password-input').val().trim();
-
     var email = signUpEmailVal;
     var password = signUpPasswordVal;
     var auth = firebase.auth();
