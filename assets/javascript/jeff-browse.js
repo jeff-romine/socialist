@@ -25,7 +25,7 @@ function renderLists() {
     var items = lists || [];
     var html = listsTemplate(items);
 
-    $("#list").html(html);
+    $("#browse-list").html(html);
 };
 
 function redirectToEditor(listId) {
@@ -33,7 +33,7 @@ function redirectToEditor(listId) {
     location.replace('jeff-edit.html');
 }
 
-$("#list").on(
+$("#browse-list").on(
     'click',
     '.edit-list',
     (event) => {

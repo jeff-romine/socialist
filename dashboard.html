@@ -70,7 +70,16 @@
                 </div>
 
                 <div id="my-lists-display">
-                    <h1>my lists Tab</h1>
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody id="browse-list">
+                        </tbody>
+                    </table>
                 </div>
 
                 <div id="community-display">
@@ -111,7 +120,6 @@
         </div>
     </div>
 
-
     <script id="list-template" type="text/x-handlebars-template">
         {{#each this}}
         <tr id="{{id}}">
@@ -128,9 +136,24 @@
         </tr>
         {{/each}}
     </script>
+
+    <script id="browse-list-template" type="text/x-handlebars-template">
+        {{#each this}}
+        <tr>
+            <td>{{title}}</td>
+            <td>
+                <a class="btn btn-danger edit-list" data-list-id="{{id}}"><i class="fa fa-pencil-square-o fa-lg"></i></a>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+
+
+
     <script src="assets/javascript/firebase.js"></script>
     <script type="text/javascript" src="assets/javascript/dashboard.js"></script>
     <script src="assets/javascript/list-editor.js"></script>
+    <script src="assets/javascript/list-browser.js"></script>
 
 </body>
 
