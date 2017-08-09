@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
     <script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
         crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
     <script src="https://use.fontawesome.com/ca1af533c3.js"></script>
+    <script src="assets/javascript/lib/handlebars-v4.0.10.js"></script>
+    <script src="http://www.w3schools.com/lib/w3data.js"></script>
     <link rel="stylesheet" href="assets/css/styles.css">
     <title>Document</title>
 </head>
@@ -55,7 +57,7 @@
 
 
                 <li id="add-list-btn">
-                    <a href="index.html"><i class="fa fa-plus-square-o add-icon-size"></i>Create a New List</a>
+                    <a><i class="fa fa-plus-square-o add-icon-size"></i>Create a New List</a>
                 </li>
 
             </ul>
@@ -63,7 +65,7 @@
     </div>
     <div class="container" id="main">
         <div class="row">
-            <div class="col-md-12">
+            <div id="main-content" class="col-md-12">
                 <h4>This is the main content</h4>
             </div>
         </div>
@@ -73,6 +75,8 @@
 
 
     <script type="text/javascript" src="assets/javascript/dashboard.js"></script>
+    <script src="assets/javascript/list-editor.js"></script>
+    <script src="assets/javascript/jeff-edit.js"></script>
 
 </body>
 

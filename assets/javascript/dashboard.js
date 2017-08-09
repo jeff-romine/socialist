@@ -26,6 +26,10 @@ $('document').ready(function () {
 
     $('body').on('click', '#logout', function () {
         firebase.auth().signOut();
-        });
+    });
+
+    $('body').on('click', '#add-list-btn', function(){
+        $('#main-content').attr('w3-include-html', 'test.html');
+    });
 
 });
