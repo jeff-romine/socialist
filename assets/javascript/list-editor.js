@@ -1,14 +1,14 @@
 function listEditor() {
-    var config = {
-        apiKey: "AIzaSyCtGKn7C12-nYfZVhDS8o94NVWQc9_ORwI",
-        authDomain: "sociallist-e325c.firebaseapp.com",
-        databaseURL: "https://sociallist-e325c.firebaseio.com",
-        projectId: "sociallist-e325c",
-        storageBucket: "sociallist-e325c.appspot.com",
-        messagingSenderId: "431074180322"
-    };
+    // var config = {
+    //     apiKey: "AIzaSyCtGKn7C12-nYfZVhDS8o94NVWQc9_ORwI",
+    //     authDomain: "sociallist-e325c.firebaseapp.com",
+    //     databaseURL: "https://sociallist-e325c.firebaseio.com",
+    //     projectId: "sociallist-e325c",
+    //     storageBucket: "sociallist-e325c.appspot.com",
+    //     messagingSenderId: "431074180322"
+    // };
 
-    firebase.initializeApp(config);
+    // firebase.initializeApp(config);
 
     var listId;
 
@@ -79,9 +79,9 @@ function listEditor() {
         itemOrderRef.set(currentItemOrder);
     }
 
-    var listTemplate = Handlebars.compile($("#list-template").html());
 
     function renderList() {
+        var listTemplate = Handlebars.compile($("#list-template").html());
         var items = currentItems || {};
         var itemOrder = currentItemOrder || [];
         var displayList = prepareDisplayList(items, itemOrder);
