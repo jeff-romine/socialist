@@ -3,28 +3,62 @@ body {
     padding: 0px;
 }
 
-/* Dashboard Styles */
-#add-list-btn {
-    font-weight: bold;
-    font-size: 1.2em;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    font-family: Verdana;
+
+/* ***** Signin/index styles ***** */
+
+.login-container-outer {
+    background-image: url(../images/llamabg.jpg);
 }
 
-.add-icon-size {
-    font-size: 30px;
-    vertical-align: middle;
+.sociallist-logo {
+    width: 80%;
+    max-width: 550px;
 }
 
+.form-signin {
+    width: 60%;
+    margin: 10px auto;
+}
 
-/* ***** index styles ***** */
+.form-control.sign-in {
+    padding: 15px;
+    height: 3.5em;
+    margin-bottom: 10px;
+    box-shadow: inset 0 0 10px #2e353d;
+}
 
 .btn-primary {
-    background-color: #2e353d;
+    background-color: #69d202;
+    color: #4f5b69;
     font-weight: 500;
     margin: 15px;
+    transition: background-color 1.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #53a602;
+    box-shadow: 0 0 8px #50a102;
+}
+
+
+/* Dashboard Styles */
+
+.dashboard-watermark {
+    background: url(../images/sociallistLogo4.png) fixed no-repeat bottom right;
+    background-size: 35%;
+}
+
+.dashboard-brand {
+    max-width: 270px;
+    margin-top: 5px;
+}
+
+#nav-llama {
+    overflow: hidden;
+}
+
+#nav-llama img {
+    width: 55em;
 }
 
 
@@ -33,23 +67,15 @@ body {
 .nav-side-menu {
     overflow: auto;
     font-family: verdana;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 200;
     background-color: #2e353d;
     position: fixed;
     top: 0px;
-    width: 300px;
+    width: 275px;
     height: 100%;
     color: #e1ffff;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 5px 0 10px -2px rgba(0, 0, 0, 0.40);
-}
-
-.nav-side-menu .brand {
-    background-color: #23282e;
-    line-height: 50px;
-    display: block;
-    text-align: center;
-    font-size: 14px;
 }
 
 .nav-side-menu .toggle-btn {
@@ -156,6 +182,21 @@ body {
     transition: all 1s ease;
 }
 
+.add-list {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    font-weight: 400;
+    font-size: 1.5em;
+    color: #50a102;
+    margin-left: 15px;
+}
+
+.add-list:hover {
+    color: #69d202;
+    text-decoration: none;
+}
+
 @media (max-width: 767px) {
     .nav-side-menu {
         position: relative;
@@ -180,6 +221,11 @@ body {
         font-size: 22px;
         padding-left: 20px;
         line-height: 50px !important;
+    }
+    .add-list {
+        font-size: 1.1em;
+        position: inherit;
+        /* display: none; */
     }
 }
 
