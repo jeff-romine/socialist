@@ -1,4 +1,4 @@
-function initMyListBrowser(){
+function initMyListBrowser() {
 
     var listsRef = firebase.database().ref().child("lists");
 
@@ -24,6 +24,7 @@ function initMyListBrowser(){
             }
         });
         lists = newLists;
+        renderLists();
     });
 
     var listsTemplate = Handlebars.compile($("#browse-list-template").html());
