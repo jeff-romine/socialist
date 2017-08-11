@@ -1,16 +1,4 @@
 var loginState;
-// Initialize Firebase
-// var config = {
-//     apiKey: "AIzaSyCtGKn7C12-nYfZVhDS8o94NVWQc9_ORwI",
-//     authDomain: "sociallist-e325c.firebaseapp.com",
-//     databaseURL: "https://sociallist-e325c.firebaseio.com",
-//     projectId: "sociallist-e325c",
-//     storageBucket: "sociallist-e325c.appspot.com",
-//     messagingSenderId: "431074180322"
-// };
-// firebase.initializeApp(config);
-
-// var database = firebase.database();
 
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
@@ -27,8 +15,14 @@ var int = function(){
   $('#my-lists-display, #community-display, #my-profile-display, #create-list-display').hide();
 };
 
+function openListEditor() {
+  $('#create-list-display').show()
+  $('#my-lists-display, #community-display, #my-profile-display, #dashboard-display').hide();
+  listEditor();
+}
+
 $('document').ready(function () {
-  
+
   int();
 
   $('body').on('click', '#dashboard-tab', function(){
@@ -56,10 +50,8 @@ $('document').ready(function () {
   });
 
   $('body').on('click', '#create-list-tab', function(){
-    $('#create-list-display').show()
-    $('#my-lists-display, #community-display, #my-profile-display, #dashboard-display').hide();
     delete sessionStorage['list-id'];
-    listEditor();
+    openListEditor();
   });
 
 });
