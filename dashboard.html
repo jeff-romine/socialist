@@ -10,11 +10,28 @@
     <script src="https://use.fontawesome.com/ca1af533c3.js"></script>
     <script src="assets/javascript/lib/handlebars-v4.0.10.js"></script>s
     <link rel="stylesheet" href="assets/css/styles.css">
+    <!--for facebook sharing api -->
+  <meta property="og:url"                content="https://jeff-romine.github.io/socialist/" />
+  <meta property="og:type"               content="Social Checklist" />
+  <meta property="og:title"              content="Check Out My New Checklist on SociaLlist" />
+  <meta property="og:description"        content="SociaLlist--the new checklist app" />
+  <meta property="og:image"              content="assets/images/Checklist-2.jpg" />
+    <!--for facebook sharing api -->
     <title>Document</title>
 </head>
 
 <body class="dashboard-watermark">
 
+<!-- this is for facebook sharing -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<!-- end of facebook sharing stuff -->
 
 
 
@@ -65,6 +82,11 @@
                 </div>
 
                 <div id="my-lists-display">
+                
+                <!-- share on facebook -->
+                <div class="fb-share-button" data-href="https://jeff-romine.github.io/socialist/" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fjeff-romine.github.io%2Fsocialist%2F&amp;src=sdkpreparse">Share on Facebook  <i class="fa fa-facebook-official" aria-hidden="true"></i></a></div>
+
+                <!-- end of facebook sharing stuff -->
                     <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
