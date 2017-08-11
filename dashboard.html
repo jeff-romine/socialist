@@ -25,19 +25,23 @@
 <!-- this is for facebook sharing -->
 <div id="fb-root"></div>
 <script>(function (d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s);
-    js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10";
-    fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) return;
+     js = d.createElement(s);
+     js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10";
+     fjs.parentNode.insertBefore(js, fjs);
+ }(document, 'script', 'facebook-jssdk'));</script>
 <!-- end of facebook sharing stuff -->
 
 
 <div class="nav-side-menu" id="nav">
     <!-- <div class="brand">Brand Logo</div> -->
+
+
     <img class="dashboard-brand" alt="Brand" src="assets/images/sociallistLogo2.png">
+
+
     <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
     <div class="menu-list">
         <ul id="menu-content" class="menu-content collapse out">
@@ -47,26 +51,25 @@
             </li>
 
             <li id="my-lists-tab">
-                <a href="#"><i class="fa fa-list-ul fa-lg"></i> My Lists </a>
+                <a href="#"><i class="fa fa-list-ul fa-lg"></i>  My Lists </a>
             </li>
 
             <li id="community-tab">
-                <a href="#"><i class="fa fa-users fa-lg"></i> Community </a>
+                <a href="#"><i class="fa fa-users fa-lg"></i>  Community </a>
             </li>
 
             <li id="my-profile-tab">
-                <a href="#"><i class="fa fa-user fa-lg"></i> My Profile</a>
+                <a href="#"><i class="fa fa-user fa-lg"></i>  My Profile</a>
             </li>
 
             <li id="logout">
-                <a href="index.html"><i class="fa fa-sign-out fa-lg"></i> Logout</a>
+                <a href="index.html"><i class="fa fa-sign-out fa-lg"></i>  Logout</a>
             </li>
         </ul>
     </div>
-    <div>
-        <a id="create-list-tab" class="add-list"><i class="fa fa-plus-square-o"></i>Create a New List</a>
+    <div id="create-list-tab">
+        <a class="add-list"><i class="fa fa-plus-square-o"></i>  Create a New List</a>
     </div>
-
     <!--***** Begin Main Content *****-->
 </div>
 <div class="container dashboard-watermark" id="main">
