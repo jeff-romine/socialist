@@ -1,49 +1,49 @@
-var listsRef = firebase.database().ref().child("lists");
+function initBrowser(){
 
-var lists = [];
+    var listsRef = firebase.database().ref().child("lists");
 
-listsRef.on('child_added', function (snapshot) {
-    console.log("lists.child_added - " + snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
-    lists.push({id: snapshot.key, title: snapshot.val().title});
-    renderLists();
-});
+    var lists = [];
 
-listsRef.on('child_changed', function (snapshot) {
-    console.log("lists.child_changed - " + snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
 
-    var newLists = lists.map((item) => {
-        if (item.id === snapshot.key) {
-            return {id: snapshot.key, title: snapshot.val().title}
-        }
-        else {
-            return item;
-        }
+    var userId = firebase.auth().currentUser.uid;
+    
+
+    listsRef.orderByChild('userId').startAt(userId).endAt(userId).on('child_added', function (snapshot) {
+        console.log("lists.child_added - " + snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
+        lists.push({id: snapshot.key, title: snapshot.val().title});
+        renderLists();
     });
-    lists = newLists;
+
+    listsRef.orderByChild('userId').startAt(userId).endAt(userId).on('child_changed', function (snapshot) {
+        console.log("lists.child_changed - " + snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
+
+        var newLists = lists.map((item) => {
+            if (item.id === snapshot.key) {
+                return {id: snapshot.key, title: snapshot.val().title}
+            }
+            else {
+                return item;
+            }
+        });
+        lists = newLists;
+    });
+
+    var listsTemplate = Handlebars.compile($("#browse-list-template").html());
+
     renderLists();
-});
 
-var listsTemplate = Handlebars.compile($("#browse-list-template").html());
+    function renderLists() {
+        var items = lists || [];
+        var html = listsTemplate(items);
 
-function renderLists() {
-    var items = lists || [];
-    var html = listsTemplate(items);
-
-    $("#browse-list").html(html);
+        $("#browse-list").html(html);
+    };
 };
 
-// function redirectToEditor(listId) {
-//     sessionStorage['list-id'] = listId;
-//     location.replace('jeff-edit.html');
-// }
-//
-//
-// $("#browse-list").on(
-//     'click',
-//     '.edit-list',
-//     (event) => {
-//         var tgt = $(event.currentTarget);
-//         var listId = tgt.attr('data-list-id');
-//         redirectToEditor(listId);
-//     }
-// );
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    initBrowser();
+  } else {
+
+  }
+});
