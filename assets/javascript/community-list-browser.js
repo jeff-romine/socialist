@@ -1,4 +1,4 @@
-function initBrowser(){
+function initCommunityListBrowser(){
 
     var listsRef = firebase.database().ref().child("lists");
 
@@ -8,13 +8,13 @@ function initBrowser(){
     var userId = firebase.auth().currentUser.uid;
     
 
-    listsRef.orderByChild('userId').startAt(userId).endAt(userId).on('child_added', function (snapshot) {
+    listsRef.on('child_added', function (snapshot) {
         console.log("lists.child_added - " + snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
         lists.push({id: snapshot.key, title: snapshot.val().title});
         renderLists();
     });
 
-    listsRef.orderByChild('userId').startAt(userId).endAt(userId).on('child_changed', function (snapshot) {
+    listsRef.on('child_changed', function (snapshot) {
         console.log("lists.child_changed - " + snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
 
         var newLists = lists.map((item) => {
@@ -36,13 +36,13 @@ function initBrowser(){
         var items = lists || [];
         var html = listsTemplate(items);
 
-        $("#browse-list").html(html);
+        $("#browse-community-list").html(html);
     };
 };
 
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
-    initBrowser();
+    initCommunityListBrowser();
   } else {
 
   }
