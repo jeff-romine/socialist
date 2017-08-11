@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
     <script src="https://use.fontawesome.com/ca1af533c3.js"></script>
-    <script src="assets/javascript/lib/handlebars-v4.0.10.js"></script>s
+    <script src="assets/javascript/lib/handlebars-v4.0.10.js"></script>
     <link rel="stylesheet" href="assets/css/styles.css">
     <!--for facebook sharing api -->
   <meta property="og:url"                content="https://jeff-romine.github.io/socialist/" />
@@ -162,7 +162,7 @@
                             <div class="input-group col-lg-12">
                                 <span class="input-group-addon">Category</span>
                                 <div class="form-group">
-                                    <select class="form-control" id="categoryInput">
+                                    <select class="form-control" id="category-input">
                                         <option value="other"></option>
                                         <option value="outdoor">Outdoor</option>
                                         <option value="lifestyle">LifeStyle</option>
@@ -197,22 +197,39 @@
     <!--End Create List  -->
 
 
-    <script id="list-template" type="text/x-handlebars-template">
-        {{#each this}}
-        <tr id="{{id}}">
-            <th>{{number}}</th>
-            <td>
-                <a class="btn move-item-up" data-item-id="{{id}}" href="#"><i class="fa fa-arrow-circle-up fa-lg"></i></a>
-                <a class="btn move-item-down" data-item-id="{{id}}" href="#"><i class="fa fa-arrow-circle-down fa-lg"></i></a>
-            </td>
-            <td><input class="editable" data-column="name" data-item-id="{{id}}" value="{{name}}"></td>
-            <td><input class="editable" data-column="description" data-item-id="{{id}}" value="{{description}}"></td>
-            <td>
-                <a class="btn btn-danger delete-item" data-item-id="{{id}}" href="#"><i class="fa fa-trash-o fa-lg"></i></a>
-            </td>
-        </tr>
-        {{/each}}
-    </script>
+<script id="list-template" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr id="{{id}}">
+        <th>{{number}}</th>
+        <td>
+            <a class="btn move-item-up" data-item-id="{{id}}" href="#"><i class="fa fa-arrow-circle-up fa-lg"></i></a>
+            <a class="btn move-item-down" data-item-id="{{id}}" href="#"><i class="fa fa-arrow-circle-down fa-lg"></i></a>
+        </td>
+        <td><input class="editable" data-column="name" data-item-id="{{id}}" value="{{name}}"></td>
+        <td><input class="editable" data-column="description" data-item-id="{{id}}" value="{{description}}"></td>
+        <td>
+            <a class="btn btn-danger delete-item" data-item-id="{{id}}" href="#"><i class="fa fa-trash-o fa-lg"></i></a>
+        </td>
+    </tr>
+    {{/each}}
+</script>
+
+    <!--<script id="list-template" type="text/x-handlebars-template">-->
+        <!--{{#each this}}-->
+        <!--<tr id="{{id}}">-->
+            <!--<th>{{number}}</th>-->
+            <!--<td>-->
+                <!--<a class="btn move-item-up" data-item-id="{{id}}" href="#"><i class="fa fa-arrow-circle-up fa-lg"></i></a>-->
+                <!--<a class="btn move-item-down" data-item-id="{{id}}" href="#"><i class="fa fa-arrow-circle-down fa-lg"></i></a>-->
+            <!--</td>-->
+            <!--<td><input class="editable" data-column="name" data-item-id="{{id}}" value="{{name}}"></td>-->
+            <!--<td><input class="editable" data-column="description" data-item-id="{{id}}" value="{{description}}"></td>-->
+            <!--<td>-->
+                <!--<a class="btn btn-danger delete-item" data-item-id="{{id}}" href="#"><i class="fa fa-trash-o fa-lg"></i></a>-->
+            <!--</td>-->
+        <!--</tr>-->
+        <!--{{/each}}-->
+    <!--</script>-->
 
     <script id="browse-list-template" type="text/x-handlebars-template">
         {{#each this}}

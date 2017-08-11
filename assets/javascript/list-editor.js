@@ -8,21 +8,12 @@ var categoryRef;
 
 
 function listEditor() {
-    // var config = {
-    //     apiKey: "AIzaSyCtGKn7C12-nYfZVhDS8o94NVWQc9_ORwI",
-    //     authDomain: "sociallist-e325c.firebaseapp.com",
-    //     databaseURL: "https://sociallist-e325c.firebaseio.com",
-    //     projectId: "sociallist-e325c",
-    //     storageBucket: "sociallist-e325c.appspot.com",
-    //     messagingSenderId: "431074180322"
-    // };
-
-    // firebase.initializeApp(config);
 
     var listId;
 
-
     var appendBlank = false;
+
+    var listsRef = firebase.database().ref().child("lists");
 
     if (sessionStorage['list-id']) {
         listId = sessionStorage['list-id'];
@@ -34,10 +25,8 @@ function listEditor() {
             titleRef.off();
             userIdRef.off();
             itemOrderRef.off();
-            categoryRef.off(); 
+            categoryRef.off();
         }
-
-        var listsRef = firebase.database().ref().child("lists");
 
         listRef = listsRef.push();
         listId = listRef.key;
@@ -45,8 +34,6 @@ function listEditor() {
         sessionStorage['list-id'] = listId;
 
         itemsRef = listRef.child("items");
- 
-
 
         itemOrderRef = listRef.child("itemOrder");
 
@@ -54,6 +41,17 @@ function listEditor() {
 
         listRef.child('userId').set(firebase.auth().currentUser.uid)
     }
+
+    listRef.once('value', function (snapshot) {
+        var list = snapshot.val();
+
+        if (list.title) {
+            $("#title").attr("value",list.title);
+        }
+        if (list.category) {
+            $("#category-input").val(list.category);
+        }
+    });
 
     itemsRef = listRef.child("items");
 
@@ -244,16 +242,14 @@ function listEditor() {
         appendBlankItem();
     });
 
+    $("#title").attr('value',)
     $("#title").on('input', function (event) {
         var tgt = $(event.currentTarget);
         titleRef.set(tgt.val());
     });
-    
-    $("#categoryInput").on('input', function (event) {
+
+    $("#category-input").on('change', function (event) {
         var tgt = $(event.currentTarget);
         categoryRef.set(tgt.val());
     });
 };
-
-
-
