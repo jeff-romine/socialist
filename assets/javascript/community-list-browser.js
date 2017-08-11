@@ -38,6 +38,20 @@ function initCommunityListBrowser(){
 
         $("#browse-community-list").html(html);
     };
+
+    $("#browse-community-list").on('click', '.edit-list',
+                (event) => {
+                  var tgt = $(event.currentTarget);
+                  var listId = tgt.attr('data-list-id');
+                  console.log("edit-list - " + listId);
+                  editList(listId);
+                });
+
+  function editList(listId) {
+    console.log("editList: " + listId);
+    sessionStorage["list-id"] = listId;
+    openListEditor();
+  }
 };
 
 firebase.auth().onAuthStateChanged(function(user) {
