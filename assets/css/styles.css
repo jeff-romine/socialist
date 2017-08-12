@@ -86,6 +86,15 @@ body {
 }
 
 
+/***** list styles *****/
+
+.browse-title {
+    padding: 5px;
+    font-size: 1.3em;
+    font-weight: 400;
+}
+
+
 /* ****** Nav Styles ***** */
 
 .nav-side-menu {
