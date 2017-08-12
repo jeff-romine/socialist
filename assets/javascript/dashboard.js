@@ -28,13 +28,11 @@ $('document').ready(function () {
   $('body').on('click', '#my-lists-tab', function(){
     $('#my-lists-display').show()
     $('#dashboard-display, #community-display, #my-profile-display, #create-list-display').hide();
-    // initMyListBrowser();
   });
 
   $('body').on('click', '#community-tab', function(){
     $('#community-display').show()
     $('#my-lists-display, #dashboard-display, #my-profile-display, #create-list-display').hide();
-      //initCommunityListBrowser();
   });
 
   $('body').on('click', '#my-profile-tab', function(){

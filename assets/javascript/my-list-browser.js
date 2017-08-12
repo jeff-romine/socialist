@@ -7,7 +7,7 @@ function initMyListBrowser() {
     var userId = firebase.auth().currentUser.uid;
 
     function snapshotToRenderableList (snapshot) {
-        return lists.push({id: snapshot.key, title: snapshot.val().title, userId: snapshot.val().userId});
+        return {id: snapshot.key, title: snapshot.val().title, userId: snapshot.val().userId};
     }
 
     listsRef.orderByChild('userId').startAt(userId).endAt(userId).on('child_added', function (snapshot) {
@@ -22,7 +22,7 @@ function initMyListBrowser() {
 
         var newLists = lists.map((item) => {
             if (item.id === snapshot.key) {
-                return snapshotToRenderableList(item);
+                return snapshotToRenderableList(snapshot);
             }
             else {
                 return item;

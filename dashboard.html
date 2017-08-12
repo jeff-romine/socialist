@@ -230,25 +230,6 @@
     </script>
     <!-- end of editing lists template -->
 
-
-    <script id="list-template" type="text/x-handlebars-template">
-        {{#each this}}
-        <tr id="{{id}}">
-            <th>{{number}}</th>
-            <td>
-                <a class="btn move-item-up" data-item-id="{{id}}" href="#"><i class="fa fa-arrow-circle-up fa-lg"></i></a>
-                <a class="btn move-item-down" data-item-id="{{id}}" href="#"><i class="fa fa-arrow-circle-down fa-lg"></i></a>
-            </td>
-            <td><input class="editable" data-column="name" data-item-id="{{id}}" value="{{name}}"></td>
-            <td><input class="editable" data-column="description" data-item-id="{{id}}" value="{{description}}"></td>
-            <td>
-                <a class="btn btn-danger delete-item" data-item-id="{{id}}" href="#"><i class="fa fa-trash-o fa-lg"></i></a>
-            </td>
-        </tr>
-        {{/each}}
-    </script>
-
-
     <script id="browse-list-template" type="text/x-handlebars-template">
         {{#each this}}
         <tr>
