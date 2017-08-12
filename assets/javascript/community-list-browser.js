@@ -11,44 +11,54 @@ function initCommunityListBrowser(){
     if(categoryVal === 'all'){
         listsRef.on('child_added', function (snapshot) {
             console.log("lists.child_added - " + snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
-            lists.push({id: snapshot.key, title: snapshot.val().title});
-            renderLists();
+            
+            if(userId != snapshot.val().userId){
+                lists.push({id: snapshot.key, title: snapshot.val().title});
+                renderLists();
+            };
         });
     } else {
         listsRef.orderByChild('category').startAt(categoryVal).endAt(categoryVal).on('child_added', function (snapshot) {
             console.log("lists.child_added - " + snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
-            lists.push({id: snapshot.key, title: snapshot.val().title});
-            renderLists();
+            
+            if(userId != snapshot.val().userId){
+                lists.push({id: snapshot.key, title: snapshot.val().title});
+                renderLists();
+            }
         });
     };
 
     if(categoryVal === 'all'){
         listsRef.on('child_changed', function (snapshot) {
             console.log("lists.child_changed - " + snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
-
-            var newLists = lists.map((item) => {
-                if (item.id === snapshot.key) {
-                    return {id: snapshot.key, title: snapshot.val().title}
-                }
-                else {
-                    return item;
-                }
-            });
-            lists = newLists;
+            
+            if(userId != snapshot.val().userId){
+                var newLists = lists.map((item) => {
+                    if (item.id === snapshot.key) {
+                        return {id: snapshot.key, title: snapshot.val().title}
+                    }
+                    else {
+                        return item;
+                    }
+                });
+                lists = newLists;
+            };
         });
     } else {
         listsRef.orderByChild('category').startAt(categoryVal).endAt(categoryVal).on('child_changed', function (snapshot) {
             console.log("lists.child_changed - " + snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
 
-            var newLists = lists.map((item) => {
-                if (item.id === snapshot.key) {
-                    return {id: snapshot.key, title: snapshot.val().title}
-                }
-                else {
-                    return item;
-                }
-            });
-            lists = newLists;
+            if(userId != snapshot.val().userId){
+                var newLists = lists.map((item) => {
+                    if (item.id === snapshot.key) {
+                        return {id: snapshot.key, title: snapshot.val().title}
+                    }
+                    else {
+                        return item;
+                    }
+                });
+                lists = newLists;
+            };
         });
     };
 
@@ -77,8 +87,12 @@ function initCommunityListBrowser(){
     sessionStorage["list-id"] = listId;
     openListEditor();
   }
+
 };
 
+  $('#community-category-input').on('input', function(){
+      initCommunityListBrowser();
+  });
 
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
@@ -86,12 +100,4 @@ firebase.auth().onAuthStateChanged(function(user) {
   } else {
 
   }
-});
-
-$('document').ready(function(){
-
-    $('#community-category-input').on('input', function(event){
-        initCommunityListBrowser();
-    });
-
 });
