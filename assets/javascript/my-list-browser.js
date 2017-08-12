@@ -6,7 +6,6 @@ function initMyListBrowser() {
 
     var userId = firebase.auth().currentUser.uid;
 
-
     function snapshotToRenderableList (snapshot) {
         return lists.push({id: snapshot.key, title: snapshot.val().title, userId: snapshot.val().userId});
     }
@@ -17,6 +16,7 @@ function initMyListBrowser() {
         renderLists();
     });
 
+    // This filters the lists to only show lists of the current user when a list is changed
     listsRef.orderByChild('userId').startAt(userId).endAt(userId).on('child_changed', function (snapshot) {
         console.log("lists.child_changed - " + snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
 
@@ -49,25 +49,26 @@ function initMyListBrowser() {
         $("#browse-my-list").html(html);
     };
 
-  $("#browse-my-list").on('click', '.edit-list',
-                (event) => {
-                  var tgt = $(event.currentTarget);
-                  var listId = tgt.attr('data-list-id');
-                  console.log("edit-list - " + listId);
-                  editList(listId);
-                });
+    $("#browse-my-list").on('click', '.edit-list',
+        (event) => {
+            var tgt = $(event.currentTarget);
+            var listId = tgt.attr('data-list-id');
+            console.log("edit-list - " + listId);
+            editList(listId);
+        });
 
-  function editList(listId) {
-    console.log("editList: " + listId);
-    sessionStorage["list-id"] = listId;
-    openListEditor();
-  }
+    function editList(listId) {
+        console.log("editList: " + listId);
+        sessionStorage["list-id"] = listId;
+        openListEditor();
+    }
 };
 
-firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-    initMyListBrowser();
-  } else {
+// We use this firebase function to gather the information of the user once it authenticates that the user is signed in
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        initMyListBrowser();
+    } else {
 
-  }
+    }
 });
