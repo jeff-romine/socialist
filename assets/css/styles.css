@@ -105,10 +105,10 @@ body {
 
 /***** list styles *****/
 
-.browse-title {
+.list-title {
     padding: 5px;
-    font-size: 1.3em;
-    font-weight: 400;
+    font-size: 3.3em;
+    font-family: 'Raleway', sans-serif;
 }
 
 
