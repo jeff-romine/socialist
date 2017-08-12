@@ -1,4 +1,5 @@
 body {
+    background-color: #fcfaf7;
     margin: 0px;
     padding: 0px;
 }
@@ -43,10 +44,11 @@ body {
 
 /* Dashboard Styles */
 
-.dashboard-watermark {
+
+/* .dashboard-watermark {
     background: url(../images/sociallistLogo4.png) fixed no-repeat bottom right;
     background-size: 35%;
-}
+} */
 
 .dashboard-brand {
     max-width: 270px;
@@ -69,11 +71,21 @@ body {
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 5px 0 10px -2px rgba(0, 0, 0, 0.40);
 }
 
-.main-content h1 {
+.header {
+    font-family: 'Raleway', sans-serif;
     text-align: center;
-    font-weight: 500;
     font-size: 3.5em;
+    letter-spacing: 4px;
     color: #d19b3d
+}
+
+.fb-share-button {
+    font-size: 1.7em;
+    text-align: right;
+}
+
+.main-content.profile {
+    font-size: 1.5em;
 }
 
 .browse-list-cell {
@@ -81,17 +93,22 @@ body {
     text-align: center;
 }
 
-.browse-list-cell a {
+.btn-green {
     font-size: 1.5em;
+    color: #a2c4a5;
+}
+
+.btn-green:hover {
+    background-color: #93c497;
 }
 
 
 /***** list styles *****/
 
-.browse-title {
+.list-title {
     padding: 5px;
-    font-size: 1.3em;
-    font-weight: 400;
+    font-size: 3.3em;
+    font-family: 'Raleway', sans-serif;
 }
 
 
