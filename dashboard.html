@@ -71,22 +71,52 @@
             <a id="create-list-tab" class="add-list"><i class="fa fa-plus-square-o"></i>Create a New List</a>
         </div>
 
+        <!--***** Begin Main Content *****-->
     </div>
-    <div class="container" id="main">
+    <div class="container dashboard-watermark" id="main">
         <div class="row">
             <div id="main-content" class="col-md-12">
-
+                <!--Dashboard Display Div  -->
                 <div id="dashboard-display">
                     <h1>Display Tab</h1>
                     <button id="filter-search-btn">search</button>
                 </div>
+                <!--End Dashboard Display Div  -->
 
+<<<<<<< HEAD
                 <div id="my-lists-display">
                 
                 <!-- share on facebook -->
                 <div class="fb-share-button" data-href="https://jeff-romine.github.io/socialist/" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fjeff-romine.github.io%2Fsocialist%2F&amp;src=sdkpreparse">Share on Facebook  <i class="fa fa-facebook-official" aria-hidden="true"></i></a></div>
                 <!-- end of facebook sharing stuff -->
 
+=======
+                <div class="main-content" id="my-lists-display">
+                        <!-- share on facebook -->
+                    <div class="fb-share-button" data-href="https://jeff-romine.github.io/socialist/" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fjeff-romine.github.io%2Fsocialist%2F&amp;src=sdkpreparse">Share on Facebook  <i class="fa fa-facebook-official" aria-hidden="true"></i></a></div>
+
+                    <!-- end of facebook sharing stuff -->
+                    <h1>My Lists</h1>
+>>>>>>> aa677f4eb1267ab996c69e12c595620ef9fca069
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <h2>Title</h2>
+                                </th>
+                                <th>
+                                    <center>Edit List</center>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="browse-my-list">
+                        </tbody>
+                    </table>
+                </div>
+                <!--End My Lists Div  -->
+
+                <!--Community Display Div  -->
+                <div id="community-display">
                     <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
@@ -94,14 +124,13 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody id="browse-list">
+                        <tbody id="browse-community-list">
                         </tbody>
                     </table>
                 </div>
+                <!--End Community Display Div  -->
 
-                <div id="community-display">
-                    <h1>community Tab</h1>
-                </div>
+                <!--My Profile Div  -->
 
                 <div id="my-profile-display">
                     <img src="assets/images/llama.png" alt="Profile Pic" style="width:175px; border:4px solid darkgrey">
@@ -114,22 +143,24 @@
                     <table style="width:50%">
                         <tr>
                             <th>List</th>
-                            <th>Detail</th> 
+                            <th>Detail</th>
                             <th>Ranking</th>
                         </tr>
                         <tr>
                             <td>Camping Prep</td>
-                            <td>Mountain Tent Camping Checklist</td> 
+                            <td>Mountain Tent Camping Checklist</td>
                             <td>Favorited 53 times</td>
                         </tr>
                         <tr>
                             <td>Tire Repair</td>
-                            <td>Flat Tire Repair Checklist</td> 
+                            <td>Flat Tire Repair Checklist</td>
                             <td>Favorited 41 times</td>
                         </tr>
                     </table>
                 </div>
+                <!--End Profile Div  -->
 
+                <!--Create List  -->
                 <div id="create-list-display">
                     <div class="container">
                         <div class="row">
@@ -137,17 +168,30 @@
                                 <span class="input-group-addon">Title</span>
                                 <input id="title" type="text" class="form-control">
                             </div>
+                            <div class="input-group col-lg-12">
+                                <span class="input-group-addon">Category</span>
+                                <div class="form-group">
+                                    <select class="form-control" id="categoryInput">
+                                        <option value="other"></option>
+                                        <option value="outdoor">Outdoor</option>
+                                        <option value="lifestyle">LifeStyle</option>
+                                        <option value="cooking">Cooking</option>
+                                        <option value="hobbies">Hobbies</option>
+                                        <option value="llamas">Llamas</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <table class="table table-striped table-bordered">
                                 <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th></th>
-                                    <th>Name</th>
-                                    <th>Description</th>
-                                    <th></th>
-                                </tr>
+                                    <tr>
+                                        <th>#</th>
+                                        <th></th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th></th>
+                                    </tr>
                                 </thead>
                                 <tbody id="list">
                                 </tbody>
@@ -159,6 +203,8 @@
             </div>
         </div>
     </div>
+    <!--End Create List  -->
+
 
     <script id="list-template" type="text/x-handlebars-template">
         {{#each this}}
@@ -180,8 +226,10 @@
     <script id="browse-list-template" type="text/x-handlebars-template">
         {{#each this}}
         <tr>
-            <td>{{title}}</td>
-            <td>
+            <a href="#">
+                <td>{{title}}</td>
+            </a>
+            <td class="browse-list-cell">
                 <a class="btn btn-danger edit-list" data-list-id="{{id}}"><i class="fa fa-pencil-square-o fa-lg"></i></a>
             </td>
         </tr>
@@ -195,7 +243,8 @@
     <script src="assets/javascript/firebase.js"></script>
     <script type="text/javascript" src="assets/javascript/dashboard.js"></script>
     <script src="assets/javascript/list-editor.js"></script>
-    <script src="assets/javascript/list-browser.js"></script>
+    <script src="assets/javascript/my-list-browser.js"></script>
+    <script src="assets/javascript/community-list-browser.js"></script>
     <script src="assets/javascript/filter.js"></script>
 
 </body>

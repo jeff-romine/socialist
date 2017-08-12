@@ -1,3 +1,12 @@
+var listRef;
+
+var titleRef;
+var itemsRef;
+var userIdRef;
+var itemOrderRef;
+var categoryRef;
+
+
 function listEditor() {
     // var config = {
     //     apiKey: "AIzaSyCtGKn7C12-nYfZVhDS8o94NVWQc9_ORwI",
@@ -12,7 +21,6 @@ function listEditor() {
 
     var listId;
 
-    var listRef;
 
     var appendBlank = false;
 
@@ -21,6 +29,14 @@ function listEditor() {
         listRef = listsRef.child(listId);
     }
     else {
+        if(listRef) {
+            itemsRef.off();
+            titleRef.off();
+            userIdRef.off();
+            itemOrderRef.off();
+            categoryRef.off(); 
+        }
+
         var listsRef = firebase.database().ref().child("lists");
 
         listRef = listsRef.push();
@@ -29,17 +45,25 @@ function listEditor() {
         sessionStorage['list-id'] = listId;
 
         itemsRef = listRef.child("items");
+ 
+
 
         itemOrderRef = listRef.child("itemOrder");
 
         appendBlank = true;
+
+        listRef.child('userId').set(firebase.auth().currentUser.uid)
     }
 
-    var itemsRef = listRef.child("items");
+    itemsRef = listRef.child("items");
 
-    var itemOrderRef = listRef.child("itemOrder");
+    itemOrderRef = listRef.child("itemOrder");
 
-    var titleRef = listRef.child("title");
+    titleRef = listRef.child("title");
+
+    userIdRef = listRef.child("userId");
+
+    categoryRef = listRef.child("category");
 
     var currentItems = {};
 
@@ -49,8 +73,9 @@ function listEditor() {
         appendBlankItem();
     }
 
-    listRef.once('value', function (snapshot) {
+    listRef.on('value', function (snapshot) {
         console.log("list.value - " + snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
+
     });
 
     itemsRef.on('child_added', function (snapshot) {
@@ -222,6 +247,11 @@ function listEditor() {
     $("#title").on('input', function (event) {
         var tgt = $(event.currentTarget);
         titleRef.set(tgt.val());
+    });
+    
+    $("#categoryInput").on('input', function (event) {
+        var tgt = $(event.currentTarget);
+        categoryRef.set(tgt.val());
     });
 };
 
