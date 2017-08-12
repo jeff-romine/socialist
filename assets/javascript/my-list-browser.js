@@ -6,9 +6,14 @@ function initMyListBrowser() {
 
     var userId = firebase.auth().currentUser.uid;
 
+
+    function snapshotToRenderableList (snapshot) {
+        return lists.push({id: snapshot.key, title: snapshot.val().title, userId: snapshot.val().userId});
+    }
+
     listsRef.orderByChild('userId').startAt(userId).endAt(userId).on('child_added', function (snapshot) {
         console.log("lists.child_added - " + snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
-        lists.push({id: snapshot.key, title: snapshot.val().title});
+        lists.push(snapshotToRenderableList(snapshot));
         renderLists();
     });
 
@@ -17,7 +22,7 @@ function initMyListBrowser() {
 
         var newLists = lists.map((item) => {
             if (item.id === snapshot.key) {
-                return {id: snapshot.key, title: snapshot.val().title}
+                return snapshotToRenderableList(item);
             }
             else {
                 return item;
@@ -31,9 +36,15 @@ function initMyListBrowser() {
 
     renderLists();
 
+    function prepareList(l) {
+        return jQuery.extend(true, {editable:(l.userId === userId)},l);
+    }
+
     function renderLists() {
-        var items = lists || [];
-        var html = listsTemplate(items);
+        var rawLists = lists || [];
+
+        var preparedLists = rawLists.map(prepareList);
+        var html = listsTemplate(rawLists);
 
         $("#browse-my-list").html(html);
     };
