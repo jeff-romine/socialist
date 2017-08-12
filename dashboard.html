@@ -29,9 +29,9 @@
         <div class="menu-list">
             <ul id="menu-content" class="menu-content collapse out">
 
-                <li id="dashboard-tab">
+                <!-- <li id="dashboard-tab">
                     <a><i class="fa fa-dashboard fa-lg"></i> Dashboard</a>
-                </li>
+                </li> -->
 
                 <li id="my-lists-tab">
                     <a href="#"><i class="fa fa-list-ul fa-lg"></i>  My Lists </a>
@@ -51,7 +51,7 @@
             </ul>
         </div>
         <div>
-            <a id="create-list-tab" class="add-list"><i class="fa fa-plus-square-o"></i>Create a New List</a>
+            <a id="create-list-tab" class="add-list"><i class="fa fa-plus-square-o"></i> Create a New List</a>
         </div>
 
         <!--***** Begin Main Content *****-->
@@ -87,7 +87,7 @@
                 <!--End My Lists Div  -->
 
                 <!--Community Display Div  -->
-                <div id="community-display">
+                <div class="main-content" id="community-display">
                     <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
@@ -103,13 +103,13 @@
 
                 <!--My Profile Div  -->
 
-                <div id="my-profile-display">
+                <div class="main-content" id="my-profile-display">
                     <h1>my profile Tab</h1>
                 </div>
                 <!--End Profile Div  -->
 
                 <!--Create List  -->
-                <div id="create-list-display">
+                <div class="main-content" id="create-list-display">
                     <div class="container">
                         <div class="row">
                             <div class="input-group col-lg-12">
@@ -175,7 +175,7 @@
         {{#each this}}
         <tr>
             <a href="#">
-                <td>{{title}}</td>
+                <td class="browse-title">{{title}}</td>
             </a>
             <td class="browse-list-cell">
                 <a class="btn btn-danger edit-list" data-list-id="{{id}}"><i class="fa fa-pencil-square-o fa-lg"></i></a>
