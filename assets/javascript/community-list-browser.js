@@ -88,15 +88,14 @@ function initCommunityListBrowser() {
         $("#browse-community-list .edit-list").hide();
         $("#browse-community-list .delete-list").hide();
     };
-
 };
 
-$("#browse-community-list").on('click', '.edit-list',
+$("#browse-community-list").on('click', '.view-list',
     (event) => {
         var tgt = $(event.currentTarget);
         var listId = tgt.attr('data-list-id');
         console.log("edit-list - " + listId);
-        editList(listId);
+        viewList(listId);
     });
 
 $('#community-category-input').on('input', function () {

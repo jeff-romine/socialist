@@ -63,12 +63,6 @@ function initMyListBrowser() {
     };
 };
 
-function editList(listId) {
-    console.log("editList: " + listId);
-    sessionStorage["list-id"] = listId;
-    openListEditor();
-}
-
 function removeListById(listId) {
     listsRef.child(listId).remove();
 }
@@ -79,6 +73,14 @@ $("#browse-my-list").on('click', '.edit-list',
         var listId = tgt.attr('data-list-id');
         console.log("edit-list - " + listId);
         editList(listId);
+    });
+
+$("#browse-my-list").on('click', '.view-list',
+    (event) => {
+        var tgt = $(event.currentTarget);
+        var listId = tgt.attr('data-list-id');
+        console.log("edit-list - " + listId);
+        viewList(listId);
     });
 
 $("#browse-my-list").on('click', '.delete-list',
