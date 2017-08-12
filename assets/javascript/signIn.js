@@ -12,6 +12,7 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
+// firebase finds when the login status is and directs them to the proper page
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     console.log(user);
@@ -24,6 +25,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 $('document').ready(function () {
   
+  // when logging in it changes the login state to true
   $('body').on('click', '#login-btn', function (event) {
     event.preventDefault();
 
@@ -48,7 +50,7 @@ $('document').ready(function () {
   });
 
 
-
+  // creates an account with email and password given and also changes login status to true
   $('#signup-btn').on('click', function (event) {
     event.preventDefault()
     // calling signUp elements
