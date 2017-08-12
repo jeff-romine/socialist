@@ -5,39 +5,41 @@ var itemsRef;
 var userIdRef;
 var itemOrderRef;
 var categoryRef;
+var listId;
+var currentItems = {};
+var currentItemOrder = [];
 
 
 function listEditor() {
-    // var config = {
-    //     apiKey: "AIzaSyCtGKn7C12-nYfZVhDS8o94NVWQc9_ORwI",
-    //     authDomain: "sociallist-e325c.firebaseapp.com",
-    //     databaseURL: "https://sociallist-e325c.firebaseio.com",
-    //     projectId: "sociallist-e325c",
-    //     storageBucket: "sociallist-e325c.appspot.com",
-    //     messagingSenderId: "431074180322"
-    // };
 
-    // firebase.initializeApp(config);
+    var newListId = sessionStorage['list-id'];
 
-    var listId;
+    if (listId && (newListId === listId)) {
+        console.log("same list-id: " + listId);
+        return;
+    }
 
+    if (listRef) {
+        listRef.off();
+        itemsRef.off();
+        titleRef.off();
+        userIdRef.off();
+        itemOrderRef.off();
+        categoryRef.off();
+    }
 
     var appendBlank = false;
 
-    if (sessionStorage['list-id']) {
-        listId = sessionStorage['list-id'];
+    var listsRef = firebase.database().ref().child("lists");
+
+
+    if (newListId) {
+        // This is an existing list
+        listId = newListId;
         listRef = listsRef.child(listId);
     }
     else {
-        if(listRef) {
-            itemsRef.off();
-            titleRef.off();
-            userIdRef.off();
-            itemOrderRef.off();
-            categoryRef.off(); 
-        }
-
-        var listsRef = firebase.database().ref().child("lists");
+        // This is a new list
 
         listRef = listsRef.push();
         listId = listRef.key;
@@ -45,15 +47,25 @@ function listEditor() {
         sessionStorage['list-id'] = listId;
 
         itemsRef = listRef.child("items");
- 
-
 
         itemOrderRef = listRef.child("itemOrder");
 
         appendBlank = true;
 
         listRef.child('userId').set(firebase.auth().currentUser.uid)
+
     }
+    // initialize static elements
+    listRef.once('value', function (snapshot) {
+        var list = snapshot.val();
+
+        //$("#title").attr("value",(list.title || ""));
+        $("#title").val(list.title || "");
+        $("#category-input").val((list.category || ""));
+
+        currentItems = (list.items || {});
+        currentItemOrder = (list.itemOrder || []);
+    });
 
     itemsRef = listRef.child("items");
 
@@ -65,17 +77,12 @@ function listEditor() {
 
     categoryRef = listRef.child("category");
 
-    var currentItems = {};
-
-    var currentItemOrder = [];
-
     if (appendBlank) {
         appendBlankItem();
     }
 
     listRef.on('value', function (snapshot) {
         console.log("list.value - " + snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
-
     });
 
     itemsRef.on('child_added', function (snapshot) {
@@ -97,107 +104,109 @@ function listEditor() {
             renderList();
         }
     );
+};
 
-    function appendItem(item) {
-        var itemRef = itemsRef.push(item);
-        currentItemOrder.push(itemRef.key);
+
+function appendItem(item) {
+    var itemRef = itemsRef.push(item);
+    currentItemOrder.push(itemRef.key);
+    itemOrderRef.set(currentItemOrder);
+}
+
+function renderList() {
+    var listTemplate = Handlebars.compile($("#list-template").html());
+    var items = currentItems || {};
+    var itemOrder = currentItemOrder || [];
+    var displayList = prepareDisplayList(items, itemOrder);
+    var html = listTemplate(displayList);
+
+    $("#list").html(html);
+}
+
+function prepareDisplayList(items, itemOrder) {
+    return itemOrder.filter(
+        function (itemKey) {
+            return items[itemKey];
+        })
+        .map(function (itemKey, index) {
+            var item = jQuery.extend(
+                true,
+                {
+                    id: itemKey,
+                    number: index + 1
+                },
+                items[itemKey]);
+
+            item.number = index + 1;
+            item.key = itemKey;
+            return item;
+        });
+}
+
+function appendBlankItem() {
+    appendItem(
+        {
+            name: "",
+            description: ""
+        }
+    );
+}
+
+function targetToString(tgt) {
+    return tgt.attr('data-item-id') + "." + tgt.attr('data-column') + ": " + tgt.val();
+}
+
+function updateColumnFromTarget(tgt) {
+    var itemKey = tgt.attr('data-item-id');
+    var col = tgt.attr('data-column');
+    var val = tgt.val();
+    currentItems[itemKey][col] = val;
+    // I probably shouldn't update the whole list to change a column, but this will work for now.
+    itemsRef.child(itemKey).child(col).set(val);
+}
+
+function removeItemById(itemId) {
+    if (currentItems[itemId]) {
+        var newCurrentItemOrder = currentItemOrder.filter((key) => (key != itemId));
+
+        currentItemOrder = newCurrentItemOrder;
         itemOrderRef.set(currentItemOrder);
+
+        var newItems = jQuery.extend(true, {}, currentItems);
+        delete newItems[itemId];
+
+        currentItems = newItems;
+        itemsRef.set(currentItems);
     }
+}
 
+function moveItemUp(itemId) {
+    var itemIdIndex = currentItemOrder.indexOf(itemId);
 
-    function renderList() {
-        var listTemplate = Handlebars.compile($("#list-template").html());
-        var items = currentItems || {};
-        var itemOrder = currentItemOrder || [];
-        var displayList = prepareDisplayList(items, itemOrder);
-        var html = listTemplate(displayList);
+    if (itemIdIndex > 0) {
+        var newItemOrder = currentItemOrder.slice();
 
-        $("#list").html(html);
+        newItemOrder.splice(itemIdIndex, 1);
+        newItemOrder.splice(itemIdIndex - 1, 0, itemId);
+
+        itemOrderRef.set(newItemOrder);
     }
+}
 
-    function prepareDisplayList(items, itemOrder) {
-        return itemOrder.filter(
-            function (itemKey) {
-                return items[itemKey];
-            })
-            .map(function (itemKey, index) {
-                var item = jQuery.extend(
-                    true,
-                    {
-                        id: itemKey,
-                        number: index + 1
-                    },
-                    items[itemKey]);
+function moveItemDown(itemId) {
+    var itemIdIndex = currentItemOrder.indexOf(itemId);
 
-                item.number = index + 1;
-                item.key = itemKey;
-                return item;
-            });
+    if (itemIdIndex < (currentItemOrder.length + 1)) {
+        var newItemOrder = currentItemOrder.slice();
+
+        newItemOrder.splice(itemIdIndex, 1);
+        newItemOrder.splice(itemIdIndex + 1, 0, itemId);
+
+        itemOrderRef.set(newItemOrder);
     }
+}
 
-    function appendBlankItem() {
-        appendItem(
-            {
-                name: "",
-                description: ""
-            }
-        );
-    }
-
-    function targetToString(tgt) {
-        return tgt.attr('data-item-id') + "." + tgt.attr('data-column') + ": " + tgt.val();
-    }
-
-    function updateColumnFromTarget(tgt) {
-        var itemKey = tgt.attr('data-item-id');
-        var col = tgt.attr('data-column');
-        var val = tgt.val();
-        currentItems[itemKey][col] = val;
-        // I probably shouldn't update the whole list to change a column, but this will work for now.
-        itemsRef.child(itemKey).child(col).set(val);
-    }
-
-    function removeItemById(itemId) {
-        if (currentItems[itemId]) {
-            var newCurrentItemOrder = currentItemOrder.filter((key) => (key != itemId));
-
-            currentItemOrder = newCurrentItemOrder;
-            itemOrderRef.set(currentItemOrder);
-
-            var newItems = jQuery.extend(true, {}, currentItems);
-            delete newItems[itemId];
-
-            currentItems = newItems;
-            itemsRef.set(currentItems);
-        }
-    }
-
-    function moveItemUp(itemId) {
-        var itemIdIndex = currentItemOrder.indexOf(itemId);
-
-        if (itemIdIndex > 0) {
-            var newItemOrder = currentItemOrder.slice();
-
-            newItemOrder.splice(itemIdIndex, 1);
-            newItemOrder.splice(itemIdIndex - 1, 0, itemId);
-
-            itemOrderRef.set(newItemOrder);
-        }
-    }
-
-    function moveItemDown(itemId) {
-        var itemIdIndex = currentItemOrder.indexOf(itemId);
-
-        if (itemIdIndex < (currentItemOrder.length + 1)) {
-            var newItemOrder = currentItemOrder.slice();
-
-            newItemOrder.splice(itemIdIndex, 1);
-            newItemOrder.splice(itemIdIndex + 1, 0, itemId);
-
-            itemOrderRef.set(newItemOrder);
-        }
-    }
-
+$(document).ready(function () {
     $("#list").on('click', '.move-item-up',
         (event) => {
             var tgt = $(event.currentTarget);
@@ -248,12 +257,9 @@ function listEditor() {
         var tgt = $(event.currentTarget);
         titleRef.set(tgt.val());
     });
-    
-    $("#categoryInput").on('input', function (event) {
+
+    $("#category-input").on('change', function (event) {
         var tgt = $(event.currentTarget);
         categoryRef.set(tgt.val());
     });
-};
-
-
-
+});
