@@ -11,8 +11,8 @@ firebase.auth().onAuthStateChanged(function(user) {
 });
 
 var int = function(){
-  $('#dashboard-display').show()
-  $('#my-lists-display, #community-display, #my-profile-display, #create-list-display').hide();
+  $('#my-lists-display,').show()
+  $('#community-display, #my-profile-display, #create-list-display').hide();
 };
 
 function openListEditor() {
@@ -24,11 +24,6 @@ function openListEditor() {
 $('document').ready(function () {
 
   int();
-
-  $('body').on('click', '#dashboard-tab', function(){
-    $('#dashboard-display').show()
-    $('#my-lists-display, #community-display, #my-profile-display, #create-list-display').hide();
-  });
 
   $('body').on('click', '#my-lists-tab', function(){
     $('#my-lists-display').show()
