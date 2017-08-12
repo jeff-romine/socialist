@@ -11,7 +11,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 });
 
 var int = function(){
-  $('#my-lists-display,').show()
+  $('#my-lists-display').show()
   $('#community-display, #my-profile-display, #create-list-display').hide();
 };
 
