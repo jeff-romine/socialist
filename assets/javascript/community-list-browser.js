@@ -83,23 +83,21 @@ function initCommunityListBrowser() {
         var html = listsTemplate(items);
 
         $("#browse-community-list").html(html);
+
+        // super hacky but i failed at getting the handlebars if to work
+        $("#browse-community-list .edit-list").hide();
+        $("#browse-community-list .delete-list").hide();
     };
 
-    $("#browse-community-list").on('click', '.edit-list',
-        (event) => {
-            var tgt = $(event.currentTarget);
-            var listId = tgt.attr('data-list-id');
-            console.log("edit-list - " + listId);
-            editList(listId);
-        });
-
-    function editList(listId) {
-        console.log("editList: " + listId);
-        sessionStorage["list-id"] = listId;
-        openListEditor();
-    }
-
 };
+
+$("#browse-community-list").on('click', '.edit-list',
+    (event) => {
+        var tgt = $(event.currentTarget);
+        var listId = tgt.attr('data-list-id');
+        console.log("edit-list - " + listId);
+        editList(listId);
+    });
 
 $('#community-category-input').on('input', function () {
     initCommunityListBrowser();

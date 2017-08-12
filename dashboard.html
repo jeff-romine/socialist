@@ -99,7 +99,6 @@
                                     <h2>Title</h2>
                                 </th>
                                 <th>
-                                    <center>Edit List</center>
                                 </th>
                             </tr>
                         </thead>
@@ -203,7 +202,7 @@
                         <tbody id="list">
                         </tbody>
                     </table>
-                    <button id="add-item" type="button" class="btn btn-primary">Add Item</button>
+                    <button id="add-item" type="button" class="btn btn-primary add-item-button">Add Item</button>
 
                 </div>
             </div>
@@ -217,13 +216,13 @@
         <tr id="{{id}}">
             <th>{{number}}</th>
             <td>
-                <a class="btn move-item-up" data-item-id="{{id}}" href="#"><i class="fa fa-arrow-circle-up fa-lg"></i></a>
-                <a class="btn move-item-down" data-item-id="{{id}}" href="#"><i class="fa fa-arrow-circle-down fa-lg"></i></a>
+                <a class="btn move-item-up" data-item-id="{{id}}" href="#"><i class="fa fa-arrow-circle-up "></i></a>
+                <a class="btn move-item-down" data-item-id="{{id}}" href="#"><i class="fa fa-arrow-circle-down "></i></a>
             </td>
             <td><input class="editable" data-column="name" data-item-id="{{id}}" value="{{name}}"></td>
             <td><input class="editable" data-column="description" data-item-id="{{id}}" value="{{description}}"></td>
             <td>
-                <a class="btn btn-danger delete-item" data-item-id="{{id}}" href="#"><i class="fa fa-trash-o fa-lg"></i></a>
+                <a class="btn btn-danger delete-item" data-item-id="{{id}}" href="#"><i class="fa fa-trash-o "></i></a>
             </td>
         </tr>
         {{/each}}
@@ -236,8 +235,9 @@
             <td>{{title}}</td>
             <td class="browse-list-cell">
                 <span>
-                    <a class="btn btn-danger edit-list" data-list-id="{{id}}"><i class="fa fa-pencil-square-o fa-lg"></i></a>
-                    <a class="btn btn-danger view-list" data-list-id="{{id}}"><i class="fa fa-eye fa-lg"></i></a>
+                    <a class="btn btn-primary view-list" data-list-id="{{id}}"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-warning edit-list" data-list-id="{{id}}"><i class="fa fa-pencil-square-o"></i></a>
+                    <a class="btn btn-danger delete-list" data-list-id="{{id}}"><i class="fa fa-trash-o"></i></a>
                 </span>
             </td>
         </tr>

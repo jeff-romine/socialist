@@ -1,6 +1,12 @@
+var listsRef;
+
 function initMyListBrowser() {
 
-    var listsRef = firebase.database().ref().child("lists");
+    if (listsRef) {
+        listsRef.off();
+    }
+
+    listsRef = firebase.database().ref().child("lists");
 
     var lists = [];
 
@@ -13,6 +19,13 @@ function initMyListBrowser() {
     listsRef.orderByChild('userId').startAt(userId).endAt(userId).on('child_added', function (snapshot) {
         console.log("lists.child_added - " + snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
         lists.push(snapshotToRenderableList(snapshot));
+        renderLists();
+    });
+
+    listsRef.orderByChild('userId').startAt(userId).endAt(userId).on('child_removed', function (snapshot) {
+        console.log("lists.child_added - " + snapshot.key + ": " + JSON.stringify(snapshot.val(), null, '  '));
+        var newLists = lists.filter((list) => snapshot.key !== list.id);
+        lists=newLists;
         renderLists();
     });
 
@@ -44,25 +57,38 @@ function initMyListBrowser() {
         var rawLists = lists || [];
 
         var preparedLists = rawLists.map(prepareList);
-        var html = listsTemplate(rawLists);
+        var html = listsTemplate(preparedLists);
 
         $("#browse-my-list").html(html);
     };
-
-    $("#browse-my-list").on('click', '.edit-list',
-        (event) => {
-            var tgt = $(event.currentTarget);
-            var listId = tgt.attr('data-list-id');
-            console.log("edit-list - " + listId);
-            editList(listId);
-        });
-
-    function editList(listId) {
-        console.log("editList: " + listId);
-        sessionStorage["list-id"] = listId;
-        openListEditor();
-    }
 };
+
+function editList(listId) {
+    console.log("editList: " + listId);
+    sessionStorage["list-id"] = listId;
+    openListEditor();
+}
+
+function removeListById(listId) {
+    listsRef.child(listId).remove();
+}
+
+$("#browse-my-list").on('click', '.edit-list',
+    (event) => {
+        var tgt = $(event.currentTarget);
+        var listId = tgt.attr('data-list-id');
+        console.log("edit-list - " + listId);
+        editList(listId);
+    });
+
+$("#browse-my-list").on('click', '.delete-list',
+    (event) => {
+        var tgt = $(event.currentTarget);
+        var listId = tgt.attr('data-list-id');
+        console.log("delete-list -" + tgt.attr('data-list-id'));
+        removeListById(listId);
+    }
+);
 
 // We use this firebase function to gather the information of the user once it authenticates that the user is signed in
 firebase.auth().onAuthStateChanged(function (user) {
